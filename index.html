@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九州家族旅行 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap');
+  :root {
+    --ink:#1a1a2e; --washi:#f5f0e8; --red:#c0392b; --gold:#c9a84c;
+    --mist:#e8e4dc; --blue-dark:#16213e; --text:#2c2c3e; --soft:#7a7a8c; --green:#2e7d5e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans TC',sans-serif;background:var(--washi);color:var(--text);line-height:1.7}
+
+  .hero{background:var(--blue-dark);color:white;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(192,57,43,.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(201,168,76,.10) 0%,transparent 50%)}
+  .hero-jp{font-family:'Noto Serif TC',serif;font-size:clamp(3rem,10vw,7rem);font-weight:300;letter-spacing:.3em;line-height:1;color:white;position:relative}
+  .hero-accent{display:inline-block;width:2px;height:1em;background:var(--red);vertical-align:middle;margin:0 .5rem}
+  .hero-sub{font-size:.95rem;letter-spacing:.25em;color:rgba(255,255,255,.55);margin-top:1.2rem;text-transform:uppercase;position:relative}
+  .hero-date{margin-top:2.5rem;font-family:'Noto Serif TC',serif;font-size:1.05rem;color:var(--gold);letter-spacing:.15em;position:relative}
+  .hero-cities{margin-top:3rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;position:relative}
+  .city-tag{border:1px solid rgba(255,255,255,.2);padding:.4rem 1rem;font-size:.85rem;letter-spacing:.1em;color:rgba(255,255,255,.7);border-radius:2px}
+  .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.3);font-size:.75rem;letter-spacing:.1em;animation:float 2.5s ease-in-out infinite}
+  .scroll-hint::after{content:'';display:block;width:1px;height:2.5rem;background:linear-gradient(to bottom,rgba(255,255,255,.3),transparent)}
+  @keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+  nav{position:sticky;top:0;z-index:100;background:var(--blue-dark);border-bottom:1px solid rgba(201,168,76,.3);display:flex;justify-content:center;overflow-x:auto}
+  nav a{color:rgba(255,255,255,.6);text-decoration:none;padding:.85rem 1.4rem;font-size:.82rem;letter-spacing:.08em;white-space:nowrap;transition:color .2s,border-bottom .2s;border-bottom:2px solid transparent}
+  nav a:hover,nav a.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+  section{max-width:900px;margin:0 auto;padding:4rem 1.5rem}
+  .section-label{font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem}
+  .section-title{font-family:'Noto Serif TC',serif;font-size:2rem;font-weight:300;color:var(--ink);margin-bottom:2.5rem}
+
+  .day-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+  .day-tab{padding:.5rem 1.1rem;border:1px solid var(--mist);background:white;cursor:pointer;font-size:.82rem;color:var(--soft);border-radius:2px;transition:all .2s;font-family:'Noto Sans TC',sans-serif}
+  .day-tab:hover{border-color:var(--gold);color:var(--text)}
+  .day-tab.active{background:var(--blue-dark);color:white;border-color:var(--blue-dark)}
+
+  .day-content{display:none}
+  .day-content.active{display:block}
+  .day-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--mist)}
+  .day-num{font-family:'Noto Serif TC',serif;font-size:2.5rem;font-weight:300;color:var(--ink);line-height:1}
+  .day-info{flex:1}
+  .day-date{font-size:.85rem;color:var(--soft);letter-spacing:.05em}
+  .day-theme{font-size:1rem;color:var(--text);font-weight:500;margin-top:.15rem}
+
+  .timeline{position:relative;padding-left:1.5rem}
+  .timeline::before{content:'';position:absolute;left:0;top:.5rem;bottom:0;width:1px;background:var(--mist)}
+  .timeline-item{position:relative;padding:.6rem 0 .6rem 1.5rem;margin-bottom:.25rem}
+  .timeline-item::before{content:'';position:absolute;left:-4px;top:1rem;width:9px;height:9px;border-radius:50%;background:var(--mist);border:2px solid white}
+  .timeline-item.highlight::before{background:var(--red)}
+  .timeline-item.transport::before{background:var(--gold)}
+  .item-category{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.1rem}
+  .item-name{font-size:.95rem;color:var(--text);font-weight:500}
+  .item-note{font-size:.82rem;color:var(--soft);margin-top:.1rem}
+
+  .hotel-badge{display:inline-flex;align-items:center;gap:.4rem;margin-top:1.2rem;padding:.5rem 1rem;background:rgba(46,125,94,.08);border:1px solid rgba(46,125,94,.25);border-radius:3px;font-size:.82rem;color:var(--green);font-weight:500}
+  .hotel-badge::before{content:'🏨';font-size:.9rem}
+
+  #map-section{background:var(--ink);padding:4rem 1.5rem}
+  .map-inner{max-width:900px;margin:0 auto}
+  .map-section-label{font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+  .map-section-title{font-family:'Noto Serif TC',serif;font-size:2rem;font-weight:300;color:white;margin-bottom:1.5rem}
+  .map-container{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+  .map-container iframe{width:100%;height:420px;display:block;border:none}
+  .map-placeholder{width:100%;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,.04);color:rgba(255,255,255,.35);font-size:.85rem;gap:.5rem;text-align:center;padding:1rem}
+  .map-placeholder span{font-size:1.8rem}
+  .map-hint{margin-top:.75rem;font-size:.75rem;color:rgba(255,255,255,.25);text-align:right}
+  .map-hint a{color:var(--gold);opacity:.7;text-decoration:none}
+  .map-stops{display:flex;margin-top:1.5rem;flex-wrap:wrap}
+  .map-stop{flex:1;min-width:100px;padding:1rem;border-right:1px solid rgba(255,255,255,.08);text-align:center}
+  .map-stop:last-child{border-right:none}
+  .stop-num{font-family:'Noto Serif TC',serif;font-size:1.4rem;color:var(--gold);line-height:1}
+  .stop-city{font-size:.85rem;color:rgba(255,255,255,.6);margin-top:.3rem}
+  .stop-days{font-size:.72rem;color:rgba(255,255,255,.3);margin-top:.15rem}
+
+  #shopping{background:white;padding:4rem 0}
+  #shopping section{padding:0 1.5rem}
+  .shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+  .shop-card{border:1px solid var(--mist);border-radius:3px;padding:1.5rem;background:white}
+  .shop-card-title{font-family:'Noto Serif TC',serif;font-size:1rem;color:var(--ink);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--mist);display:flex;align-items:center;gap:.5rem}
+  .shop-list{list-style:none}
+  .shop-list li{font-size:.88rem;color:var(--text);padding:.35rem 0;border-bottom:1px solid #f5f5f5;display:flex;align-items:flex-start;gap:.5rem}
+  .shop-list li:last-child{border-bottom:none}
+  .shop-list li::before{content:'·';color:var(--red);font-size:1.2rem;line-height:1.3;flex-shrink:0}
+  .shop-location{font-size:.72rem;color:var(--soft);margin-top:.1rem}
+
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+  .info-card{background:white;border:1px solid var(--mist);padding:1.5rem;border-radius:3px}
+  .info-card h4{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);margin-bottom:.8rem}
+  .info-card p{font-size:.9rem;color:var(--text);line-height:1.6}
+
+  footer{background:var(--blue-dark);color:rgba(255,255,255,.3);text-align:center;padding:2rem;font-size:.78rem;letter-spacing:.1em}
+  footer a{color:var(--gold);text-decoration:none;opacity:.7;margin-left:1.5rem}
+  footer a:hover{opacity:1}
+
+  @media(max-width:600px){
+    .hero{min-height:100svh;padding:2rem 1.25rem}
+    .hero-sub{font-size:.8rem;letter-spacing:.12em}
+    .hero-date{font-size:.9rem;letter-spacing:.08em;margin-top:1.5rem}
+    .hero-cities{gap:.5rem;margin-top:1.5rem}
+    .city-tag{padding:.3rem .7rem;font-size:.78rem}
+    nav{justify-content:flex-start}
+    nav a{padding:.75rem 1rem;font-size:.8rem;letter-spacing:.03em;flex:1;text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center}
+    section{padding:2.5rem 1rem}
+    .section-title{font-size:1.5rem;margin-bottom:1.5rem}
+    .day-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.25rem;-webkit-overflow-scrolling:touch;gap:.4rem}
+    .day-tabs::-webkit-scrollbar{display:none}
+    .day-tab{flex-shrink:0;padding:.45rem .9rem;font-size:.8rem;min-height:44px;display:flex;align-items:center}
+    .day-num{font-size:2rem}
+    .day-theme{font-size:.92rem}
+    #map-section{padding:2.5rem 1rem}
+    .map-section-title{font-size:1.5rem}
+    .map-container iframe{height:260px}
+    .map-stop{min-width:0;padding:.75rem .5rem}
+    .stop-city{font-size:.72rem}
+    .stop-days{font-size:.65rem}
+    #shopping{padding:2.5rem 0}
+    .shop-grid{grid-template-columns:1fr}
+    .info-grid{grid-template-columns:1fr}
+    .hotel-badge{font-size:.78rem;padding:.45rem .85rem}
+    footer{font-size:.72rem;padding:1.5rem 1rem;line-height:2}
+    footer a{display:block;margin:.25rem 0 0}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-jp">九<span class="hero-accent"></span>州</div>
+  <p class="hero-sub">Family Trip · Japan 2026</p>
+  <p class="hero-date">2026年6月16日 — 6月23日 &#x2022; 8天7夜</p>
+  <div class="hero-cities">
+    <span class="city-tag">福岡</span><span class="city-tag">門司港</span>
+    <span class="city-tag">太宰府</span><span class="city-tag">熊本</span><span class="city-tag">阿蘇</span>
+  </div>
+  <div class="scroll-hint">向下滑動</div>
+</header>
+
+<nav id="main-nav">
+  <a href="#itinerary" class="active">行程表</a>
+  <a href="#map-section">地圖</a>
+  <a href="#shopping">購物清單</a>
+  <a href="#info">旅行資訊</a>
+</nav>
+
+<section id="itinerary">
+  <p class="section-label">Day by Day</p>
+  <h2 class="section-title">每日行程</h2>
+  <div class="day-tabs" id="day-tabs"></div>
+  <div id="day-panels"></div>
+</section>
+
+<div id="map-section">
+  <div class="map-inner">
+    <p class="map-section-label">路線概覽</p>
+    <h2 class="map-section-title">九州地圖</h2>
+    <div class="map-container" id="map-wrapper"></div>
+    <p class="map-hint">尚未設定地圖？前往 <a href="japan-editor.html">編輯頁</a> 貼上嵌入碼。</p>
+    <div class="map-stops">
+      <div class="map-stop"><div class="stop-num">01</div><div class="stop-city">福岡・博多</div><div class="stop-days">Day 1–5</div></div>
+      <div class="map-stop"><div class="stop-num">02</div><div class="stop-city">門司港・小倉</div><div class="stop-days">Day 3</div></div>
+      <div class="map-stop"><div class="stop-num">03</div><div class="stop-city">太宰府</div><div class="stop-days">Day 4</div></div>
+      <div class="map-stop"><div class="stop-num">04</div><div class="stop-city">熊本</div><div class="stop-days">Day 5–8</div></div>
+      <div class="map-stop"><div class="stop-num">05</div><div class="stop-city">阿蘇</div><div class="stop-days">Day 6</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="shopping">
+  <section>
+    <p class="section-label">Travel Checklist</p>
+    <h2 class="section-title">購物清單</h2>
+    <div class="shop-grid" id="shop-grid-container"></div>
+  </section>
+</div>
+
+<section id="info">
+  <p class="section-label">Good to Know</p>
+  <h2 class="section-title">旅行資訊</h2>
+  <div class="info-grid">
+    <div class="info-card"><h4>航班資訊</h4><p>去程：6/16 KHH 14:30 → FUK 17:55<br>回程：6/23 KMJ 19:50 → KHH 21:40</p></div>
+    <div class="info-card"><h4>住宿</h4><p>福岡（Day 1–4）：Fu-rin 飯店<br>熊本（Day 5–7）：fav KUMAMOTO</p></div>
+    <div class="info-card"><h4>天氣提醒</h4><p>6月梅雨季，建議攜帶輕便雨衣或折疊傘。氣溫約 22–30°C。</p></div>
+    <div class="info-card"><h4>交通重點</h4><p>建議購買 SUGOCA 或 ICOCA 交通卡，市區移動最方便。</p></div>
+  </div>
+</section>
+
+<footer>
+  <p>九州家族旅行 · 2026年6月 · 僅供家庭內部參考<a href="japan-editor.html">✏️ 編輯內容</a></p>
+</footer>
+
+<script>
+const STORAGE_KEY = 'kyushu2026';
+
+// ── Default data ─────────────────────────────────────────────────────
+const DEFAULTS = {
+  mapEmbed: '',
+  notes: '',
+  days: [
+    { date:'6月16日（週二）', theme:'啟程 ✈ 抵達福岡', hotel:'Fu-rin 飯店（福岡）',
+      items:[
+        {cat:'交通', name:'前往小港機場', note:'', type:'transport'},
+        {cat:'航班', name:'14:30 KHH → 17:55 FUK', note:'', type:'highlight'},
+        {cat:'交通', name:'福岡機場 → 博多車站', note:'', type:'transport'},
+        {cat:'購物', name:'博多車站藥妝', note:'涼感噴霧、面膜', type:''},
+        {cat:'晚餐', name:'中州屋台街', note:'', type:'highlight'}
+      ]
+    },
+    { date:'6月17日（週三）', theme:'市區逛街 · 天神', hotel:'Fu-rin 飯店（福岡）',
+      items:[
+        {cat:'早餐', name:'買麵包', note:'Dacomecca / Full Full', type:''},
+        {cat:'午餐', name:'一蘭拉麵 總本店', note:'', type:'highlight'},
+        {cat:'購物', name:'Mina天神、天神地下街', note:'', type:''},
+        {cat:'購物', name:'Big Camera（1店、2店）', note:'', type:''},
+        {cat:'晚餐', name:'水炊鍋 / 牛腸鍋', note:'', type:'highlight'}
+      ]
+    },
+    { date:'6月18日（週四）', theme:'門司港 · 小倉 · 皿倉山', hotel:'Fu-rin 飯店（福岡）',
+      items:[
+        {cat:'出發', name:'門司港', note:'', type:'transport'},
+        {cat:'午餐', name:'燒咖哩：Princess Phi Phi', note:'', type:'highlight'},
+        {cat:'景點', name:'小倉城', note:'', type:''},
+        {cat:'景點', name:'皿倉山展望台', note:'', type:'highlight'},
+        {cat:'晚餐', name:'一蘭拉麵總本店', note:'', type:''}
+      ]
+    },
+    { date:'6月19日（週五）', theme:'神社參拜 · 太宰府', hotel:'Fu-rin 飯店（福岡）',
+      items:[
+        {cat:'景點', name:'太宰府 天滿宮', note:'', type:'highlight'},
+        {cat:'景點', name:'天開稻荷神社', note:'', type:''},
+        {cat:'景點', name:'寶滿宮竈門神社', note:'', type:''},
+        {cat:'午餐', name:'太宰府攤販', note:'', type:''},
+        {cat:'購物', name:'博多運河城', note:'', type:''},
+        {cat:'購物', name:'博多阪急百貨B1', note:'買伴手禮', type:''},
+        {cat:'晚餐', name:'LOPIA超市', note:'', type:'highlight'}
+      ]
+    },
+    { date:'6月20日（週六）', theme:'博多 → 熊本', hotel:'fav KUMAMOTO（熊本）',
+      items:[
+        {cat:'景點', name:'櫛田神社', note:'', type:''},
+        {cat:'午餐', name:'麵屋兼虎', note:'', type:'highlight'},
+        {cat:'移動', name:'博多 → 熊本', note:'', type:'transport'},
+        {cat:'景點', name:'熊本熊廣場', note:'', type:''},
+        {cat:'購物', name:'AMU PLAZA', note:'', type:''},
+        {cat:'購物', name:'Big Camera', note:'', type:''}
+      ]
+    },
+    { date:'6月21日（週日）', theme:'阿蘇火山一日遊', hotel:'fav KUMAMOTO（熊本）',
+      items:[
+        {cat:'景點', name:'草千里之濱', note:'', type:'highlight'},
+        {cat:'景點', name:'阿蘇火山口', note:'', type:'highlight'},
+        {cat:'景點', name:'阿蘇神社', note:'', type:''}
+      ]
+    },
+    { date:'6月22日（週一）', theme:'熊本市區探索', hotel:'fav KUMAMOTO（熊本）',
+      items:[
+        {cat:'景點', name:'熊本城', note:'', type:'highlight'},
+        {cat:'景點', name:'湧湧座', note:'', type:''},
+        {cat:'景點', name:'櫻之馬場 城彩苑', note:'', type:''},
+        {cat:'購物', name:'上下通商店街', note:'', type:''},
+        {cat:'購物', name:'買藥妝', note:'', type:''},
+        {cat:'晚餐', name:'福雞居酒屋', note:'', type:'highlight'}
+      ]
+    },
+    { date:'6月23日（週二）', theme:'最後一天 · 返台', hotel:'',
+      items:[
+        {cat:'景點', name:'水前寺成趣園', note:'考慮穿和服體驗', type:''},
+        {cat:'航班', name:'19:50 KMJ → 21:40 KHH', note:'', type:'highlight'}
+      ]
+    }
+  ],
+  shopping: [
+    { category:'💊 藥妝', items:[
+      {name:'涼感噴霧',location:'博多車站藥妝'},
+      {name:'面膜',location:'博多車站藥妝'},
+      {name:'藥妝（自行添加）',location:'熊本市區'}
+    ]},
+    { category:'🎁 伴手禮', items:[
+      {name:'伴手禮',location:'博多阪急百貨 B1'},
+      {name:'超市食品',location:'LOPIA超市'}
+    ]},
+    { category:'📱 3C 家電', items:[
+      {name:'Big Camera',location:'天神 1店、2店'},
+      {name:'Big Camera',location:'熊本'}
+    ]},
+    { category:'👗 服飾・雜貨', items:[
+      {name:'Mina天神',location:'福岡天神'},
+      {name:'天神地下街',location:'福岡天神'},
+      {name:'AMU PLAZA',location:'熊本車站'},
+      {name:'上下通商店街',location:'熊本市區'}
+    ]}
+  ]
+};
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+    const saved = JSON.parse(raw);
+    return { ...JSON.parse(JSON.stringify(DEFAULTS)), ...saved };
+  } catch(e) { return JSON.parse(JSON.stringify(DEFAULTS)); }
+}
+
+// ── Render itinerary ─────────────────────────────────────────────────
+function renderItinerary() {
+  const data = loadData();
+  const tabsEl = document.getElementById('day-tabs');
+  const panelsEl = document.getElementById('day-panels');
+  tabsEl.innerHTML = '';
+  panelsEl.innerHTML = '';
+
+  data.days.forEach((day, i) => {
+    const tab = document.createElement('button');
+    tab.className = 'day-tab' + (i===0?' active':'');
+    tab.textContent = 'Day ' + (i+1);
+    tab.onclick = () => showDay(i);
+    tabsEl.appendChild(tab);
+
+    const typeClass = {'highlight':'highlight','transport':'transport','':''}
+    const itemsHtml = day.items.map(item => `
+      <div class="timeline-item ${item.type||''}">
+        <div class="item-category">${item.cat}</div>
+        <div class="item-name">${item.name}</div>
+        ${item.note ? `<div class="item-note">${item.note}</div>` : ''}
+      </div>
+    `).join('');
+
+    const hotelHtml = day.hotel
+      ? `<div class="hotel-badge">今晚住宿：${day.hotel}</div>`
+      : '';
+
+    const panel = document.createElement('div');
+    panel.className = 'day-content' + (i===0?' active':'');
+    panel.id = 'day-' + i;
+    panel.innerHTML = `
+      <div class="day-header">
+        <div class="day-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="day-info">
+          <div class="day-date">${day.date}</div>
+          <div class="day-theme">${day.theme}</div>
+        </div>
+      </div>
+      <div class="timeline">${itemsHtml}</div>
+      ${hotelHtml}
+    `;
+    panelsEl.appendChild(panel);
+  });
+}
+
+function showDay(idx) {
+  document.querySelectorAll('.day-content').forEach((el,i) => el.classList.toggle('active', i===idx));
+  document.querySelectorAll('.day-tab').forEach((el,i) => el.classList.toggle('active', i===idx));
+}
+
+// ── Render map ───────────────────────────────────────────────────────
+function renderMap() {
+  const data = loadData();
+  const wrapper = document.getElementById('map-wrapper');
+  if (data.mapEmbed && data.mapEmbed.trim()) {
+    wrapper.innerHTML = data.mapEmbed;
+    const iframe = wrapper.querySelector('iframe');
+    if (iframe) { iframe.style.cssText='width:100%;height:420px;display:block;border:none'; }
+  } else {
+    wrapper.innerHTML = `<div class="map-placeholder"><span>🗾</span><div>尚未加入地圖</div><div style="font-size:.72rem;margin-top:.3rem;">請到 <strong style="color:var(--gold)">編輯頁</strong> 貼上 Google Maps 嵌入碼</div></div>`;
+  }
+}
+
+// ── Render shopping ──────────────────────────────────────────────────
+function renderShopping() {
+  const data = loadData();
+  document.getElementById('shop-grid-container').innerHTML = data.shopping.map(cat => `
+    <div class="shop-card">
+      <div class="shop-card-title">${cat.category}</div>
+      <ul class="shop-list">
+        ${cat.items.map(item => `
+          <li><div>
+            <div>${item.name}</div>
+            ${item.location ? `<div class="shop-location">${item.location}</div>` : ''}
+          </div></li>
+        `).join('')}
+      </ul>
+    </div>
+  `).join('');
+}
+
+// ── Nav scroll ───────────────────────────────────────────────────────
+const navSections = document.querySelectorAll('section[id],div[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  navSections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href')==='#'+cur));
+});
+navLinks.forEach(l => l.addEventListener('click', e => {
+  e.preventDefault();
+  document.querySelector(l.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+}));
+
+// ── Render all ───────────────────────────────────────────────────────
+function renderAll() {
+  renderItinerary();
+  renderMap();
+  renderShopping();
+}
+
+// ── Auto-refresh: 切回此分頁時重新載入 ──────────────────────────────
+window.addEventListener('focus', renderAll);
+
+// ── Auto-refresh: 同瀏覽器其他分頁存檔時即時更新 ────────────────────
+window.addEventListener('storage', (e) => {
+  if (e.key === STORAGE_KEY) renderAll();
+});
+
+// ── Init ─────────────────────────────────────────────────────────────
+renderAll();
+</script>
+</body>
+</html>
